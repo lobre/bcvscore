@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 class Division(models.Model):
     nom = models.CharField(max_length=10)
@@ -9,21 +11,58 @@ class Division(models.Model):
 
 class Equipe(models.Model):
     nom = models.CharField(max_length=50)
-    division = models.ForeignKey(Division)
+    division = models.ForeignKey(
+        Division,
+        verbose_name='Division'
+    )
 
     def __str__(self):
         return self.nom
+
 
 class Rencontre(models.Model):
     numero = models.IntegerField()
     date = models.DateField()
     heure = models.TimeField()
 
-    equipeDom = models.ForeignKey(Equipe, related_name='equipeDom')
-    equipeExt = models.ForeignKey(Equipe, related_name='equipeExt')
+    equipeDom = models.ForeignKey(
+        Equipe,
+        related_name='rencontreDom',
+        verbose_name='Equipe Domicile'
+    )
+    equipeExt = models.ForeignKey(
+        Equipe,
+        related_name='rencontreExt',
+        verbose_name='Equipe Exterieur'
+    )
 
-    scoreDom = models.IntegerField()
-    scoreExt = models.IntegerField()
+    scoreDom = models.IntegerField(
+        verbose_name='Score Domicile',
+        null=True,
+        blank=True
+    )
+    scoreExt = models.IntegerField(
+        verbose_name='Score Exterieur',
+        null=True,
+        blank=True
+    )
 
-    forfaitDom = models.BooleanField()
-    forfaitExt = models.BooleanField()
+    forfaitDom = models.BooleanField(
+        verbose_name='Forfait Domicile',
+        default=False
+    )
+    forfaitExt = models.BooleanField(
+        verbose_name='Forfait Exterieur',
+        default=False
+    )
+
+    def __str__(self):
+        return str(self.numero)
+
+
+class Profil(models.Model):
+    user = models.OneToOneField(User, verbose_name='Utilisateur')
+    equipes = models.ManyToManyField(Equipe)
+
+    def __str__(self):
+        return self.user.username
