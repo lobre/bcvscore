@@ -85,7 +85,7 @@ DATABASES['default'] = dj_database_url.config(
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'fr_FR'
+LANGUAGE_CODE = 'fr-fr'
 
 TIME_ZONE = 'UTC'
 
@@ -93,7 +93,9 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
+
+FIRST_DAY_OF_WEEK = 1
 
 # Static asset configuration
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
