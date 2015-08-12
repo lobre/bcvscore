@@ -64,7 +64,14 @@ class ProfilAdmin(admin.ModelAdmin):
     # En-tête de notre colonne
     apercu_equipes.short_description = 'Equipes'
 
+class EquipeInline(admin.TabularInline):
+    model = Equipe
+    extra = 3
+
+class DivisionAdmin(admin.ModelAdmin):
+    inlines = [EquipeInline]
+
 admin.site.register(Equipe, EquipeAdmin)
-admin.site.register(Division)
+admin.site.register(Division, DivisionAdmin)
 admin.site.register(Rencontre, RencontreAdmin)
 admin.site.register(Profil, ProfilAdmin)
