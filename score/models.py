@@ -1,16 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from solo.models import SingletonModel
 
 
 class Division(models.Model):
-    nom = models.CharField(max_length=10)
+    nom = models.CharField(max_length=30)
 
     def __str__(self):
         return self.nom
 
 
 class Equipe(models.Model):
-    nom = models.CharField(max_length=50)
+    nom = models.CharField(max_length=100)
     division = models.ForeignKey(
         Division,
         verbose_name='Division'
@@ -66,3 +67,12 @@ class Profil(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class SiteConfiguration(SingletonModel):
+    login = models.CharField(max_length=7, verbose_name='Identifiant')
+    password = models.CharField(max_length=8, verbose_name='Mot de passe')
+    url_ffbb = models.CharField(max_length=50, verbose_name='URL du site FFBB')
+
+    class Meta:
+        verbose_name = "Site Configuration"

@@ -1,3 +1,12 @@
 from django.shortcuts import render
+from score.models import Rencontre
 
-# Create your views here.
+
+def home(request):
+    rencontres = Rencontre.objects.all().order_by('-date')
+    return render(
+        request,
+        'score/home.html',
+        locals()
+    )
+

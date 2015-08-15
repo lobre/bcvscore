@@ -1,0 +1,48 @@
+<style>
+td {
+    text-align: center;
+} 
+</style>
+
+<div style="text-align: center">
+    <h1>BCV Score</h1>
+
+    <form action="{% url 'admin:index' %}">
+        <input type="submit" value="Se rendre sur l'administration">
+    </form>
+</div>
+
+<p>Ci-dessous les résultats</p>
+
+<table border="1" style="width:100%">
+    <tr>
+        <th>Division</th>
+        <th>Numéro de match</th> 
+        <th>Equipe 1</th>
+        <th>Equipe 2</th>
+        <th>Date de rencontre</th>
+        <th>Heure</th>
+        <th>Score 1</th>
+        <th>Forfait 1</th>
+        <th>Score 2</th>
+        <th>Forfait 2</th>
+    </tr>
+    {% for rencontre in rencontres %}
+        <tr>
+            <td>{{rencontre.equipeDom.division}}</td>
+            <td>{{rencontre.numero}}</td>
+            <td>{{rencontre.equipeDom}}</td>
+            <td>{{rencontre.equipeExt}}</td>
+            <td>{{rencontre.date}}</td>
+            <td>{{rencontre.heure}}</td>
+            <td>{{rencontre.scoreDom|default:""}}</td>
+            <td>{{rencontre.forfaitDom|yesno:"X,,"}}</td>
+            <td>{{rencontre.scoreExt|default:""}}</td>
+            <td>{{rencontre.forfaitExt|yesno:"X,,"}}</td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td colspan="10">Aucune rencontre dans la base</td>
+        </tr>
+    {% endfor %}
+</table>
