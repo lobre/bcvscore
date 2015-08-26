@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from django.utils import dateparse
 from score.models import Division, Equipe, Rencontre
 import csv
 import datetime
@@ -10,10 +9,10 @@ class Command(BaseCommand):
     help = 'Commande pour importer les données'
 
     def handle(self, *args, **options):
-        self._DownloadDataFile()
-        self._ImportInDjango()
+        self._downloadDataFile()
+        self._importInDjango()
 
-    def _ImportInDjango(self):
+    def _importInDjango(self):
         """ Import data to django from csv """
 
         with open(settings.DATA_PATH, 'r', encoding='latin-1') as csv_file:
@@ -57,8 +56,8 @@ class Command(BaseCommand):
                 scoreExt = 0 if raw['Score 2'] == '' else int(raw['Score 2'])
                 forfaitDom = True if raw['Forfait 1'] == 'true' else False
                 forfaitExt = True if raw['Forfait 2'] == 'true' else False
-                date = dateparse.parse_date(raw['Date de rencontre'])
-                heure = dateparse.parse_time(raw['Heure'])
+                date = datetime.datetime.strptime(raw['Date de rencontre'], '%d/%m/%Y')
+                heure = datetime.datetime.strptime(raw['Heure'], '%H:%M')
                 rencontre, created = Rencontre.objects.get_or_create(
                     numero=int(raw['N° de match']),
                     date=date,
@@ -77,6 +76,6 @@ class Command(BaseCommand):
                         'Rencontre {} ajoutée'.format(rencontre.numero)
                     )
 
-    def _DownloadDataFile(self):
+    def _downloadDataFile(self):
         """ Download csv file from ffbb """
         pass
