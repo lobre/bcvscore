@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'chroniker',
+    'rest_framework',
     'solo',
     'score'
 )
