@@ -3,3 +3,4 @@ venv
 staticfiles
 *.sublime-workspace
 *.sublime-project
+credentials

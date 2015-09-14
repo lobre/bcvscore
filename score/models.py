@@ -72,7 +72,7 @@ class Profil(models.Model):
 class SiteConfiguration(SingletonModel):
     login = models.CharField(max_length=7, verbose_name='Identifiant')
     password = models.CharField(max_length=8, verbose_name='Mot de passe')
-    url_ffbb = models.CharField(max_length=50, verbose_name='URL du site FFBB')
+    username = models.CharField(max_length=20, verbose_name='Nom utilisateur')
 
     class Meta:
         verbose_name = "Site Configuration"

@@ -84,7 +84,7 @@ class SiteConfigurationAdmin(SingletonModelAdmin):
     fieldsets = (
         ('FFBB', {
             'description': 'Paramètres pour l\'import sur FFBB',
-            'fields': ('login', 'password', 'url_ffbb')
+            'fields': ('login', 'password', 'username')
         }),
     )
 

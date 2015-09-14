@@ -1,8 +1,9 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
-from score.models import Division, Equipe, Rencontre
+from score.models import Division, Equipe, Rencontre, SiteConfiguration
 import csv
 import datetime
+import requests
 
 
 class Command(BaseCommand):
@@ -10,7 +11,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self._downloadDataFile()
-        self._importInDjango()
+        # self._importInDjango()
 
     def _importInDjango(self):
         """ Import data to django from csv """
@@ -78,4 +79,24 @@ class Command(BaseCommand):
 
     def _downloadDataFile(self):
         """ Download csv file from ffbb """
-        pass
+        config = SiteConfiguration.objects.get()
+
+        with requests.Session() as s:
+            # Authentication
+            data = {
+                'identificationBean.identifiant': '{}'.format(config.login),
+                'identificationBean.mdp': '{}'.format(config.password),
+                'userName': '{}'.format(config.username)
+            }
+            url = 'http://extranet.ffbb.com/fbi/identification.do'
+            s.post(url, data=data)
+
+            # Get Csv file
+            url = 'http://extranet.ffbb.com/fbi/rechercherCompetitionRencontre.do?action=executeCsv'
+            response = s.get(url)
+
+            # Create the file
+            if response.status_code == 200:
+                with open(settings.DATA_PATH, 'wb') as f:
+                    for chunk in response:
+                        f.write(chunk)
