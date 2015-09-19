@@ -104,7 +104,6 @@ USE_TZ = False
 FIRST_DAY_OF_WEEK = 1
 
 # Static asset configuration
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
