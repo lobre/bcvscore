@@ -13,7 +13,7 @@ class Command(BaseCommand):
         if(self._downloadDataFile()):
             self._importInDjango()
         else:
-            print('Impossible de télécharger le CSV')
+            self.stdout.write('Impossible de télécharger le CSV')
 
     def _importInDjango(self):
         """ Import data to django from csv """
@@ -76,7 +76,10 @@ class Command(BaseCommand):
                 )
                 if created:
                     self.stdout.write(
-                        'Rencontre {} ajoutée'.format(rencontre.numero)
+                        'Rencontre {} / {} ajoutée'.format(
+                            rencontre.equipeDom,
+                            rencontre.equipeExt
+                        )
                     )
 
     def _downloadDataFile(self):
