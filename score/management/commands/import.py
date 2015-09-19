@@ -4,6 +4,7 @@ from score.models import Division, Equipe, Rencontre, SiteConfiguration
 import csv
 import datetime
 import requests
+import os
 
 
 class Command(BaseCommand):
@@ -112,6 +113,7 @@ class Command(BaseCommand):
 
             # Create the file
             if response.status_code == 200:
+                os.makedirs(os.path.dirname(settings.DATA_PATH), exist_ok=True)
                 with open(settings.DATA_PATH, 'wb') as f:
                     for chunk in response:
                         f.write(chunk)
