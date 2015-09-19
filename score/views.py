@@ -20,7 +20,7 @@ def home(request):
 
     if 'q' in request.GET:
         q = request.GET['q']
-        query = Q(equipeDom__nom__icontains=q) | Q(equipeExt__nom__icontains=q)
+        query = Q(equipeDom__nom__icontains=q) | Q(equipeExt__nom__icontains=q) | Q(equipeDom__division__nom__icontains=q)
         rencontres = rencontres.filter(query)
 
     return render(
@@ -43,7 +43,7 @@ def upcoming(request):
 
     if 'q' in request.GET:
         q = request.GET['q']
-        query = Q(equipeDom__nom__icontains=q) | Q(equipeExt__nom__icontains=q)
+        query = Q(equipeDom__nom__icontains=q) | Q(equipeExt__nom__icontains=q) | Q(equipeDom__division__nom__icontains=q)
         rencontres = rencontres.filter(query)
 
     return render(

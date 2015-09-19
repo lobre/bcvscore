@@ -7,58 +7,58 @@
 
 {% block nav %}
     <ul class="nav navbar-nav">
-        <li class="{% if home %}active{% endif %}"><a href="{% url 'score.views.home' %}">Accueil</a></li>
-        <li class="{% if not home %}active{% endif %}"><a href="{% url 'score.views.upcoming' %}">A venir</a></li>
+        <li class="{% if home %}active{% endif %}"><a href="{% url 'score.views.home' %}">Résultats</a></li>
+        <li class="{% if not home %}active{% endif %}"><a href="{% url 'score.views.upcoming' %}">Matchs à venir</a></li>
         <li><a href="{% url 'admin:index' %}">Admin</a></li>
     </ul>
 {% endblock %}
 
 {% block content %}
     <div class="row">
-        <h1>{{title}}</h1>
+        <div class="container">
+            <h1>{{title}}</h1>
+        </div>
     </div>
 
     <div class="row">
-        <form class="form-inline">
-            <div class="form-group">
-                <label for="search">Equipe</label>
-                <input name="q" value="{{q}}" type="text" class="form-control" id="search" placeholder="Viriat">
-            </div>
-            <button type="submit" class="btn btn-primary">Rechercher</button>
-            <a href="{{request.path}}" class="btn btn-default">Annuler</a>
-        </form>
+        <div class="container">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="search">Equipe ou Division</label>
+                    <input name="q" value="{{q}}" type="text" class="form-control" id="search" placeholder="Viriat, DF1...">
+                </div>
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+                <a href="{{request.path}}" class="btn btn-default">Annuler</a>
+            </form>
+        </div>
     </div>
     
     <div class="row">
-        <div class="table-responsive">
+        <div class="container">
             <table class="table table-hover table-condensed">
                 <thead>
                     <tr>
-                        <th>Div</th>
-                        <th>Num</th> 
-                        <th>Equipe 1</th>
-                        <th>Equipe 2</th>
-                        <th style="width: 140px;">Date</th>
-                        <th>Heure</th>
-                        <th style="width: 50px;">Sco 1</th>
-                        <th style="width: 50px;">For 1</th>
-                        <th style="width: 50px;">Sco 2</th>
-                        <th style="width: 50px;">For 2</th>
+                        <th class="col-sm-1 hidden-xs">Div</th>
+                        <th class="col-sm-1 hidden-xs">Num</th>
+                        <th class="col-xs-1">Date</th>
+                        <th class="col-xs-1">Heure</th>
+                        <th class="col-xs-4 col-sm-3 text-right">Equipe 1</th>
+                        <th class="col-xs-1 text-right">Sco 1</th>
+                        <th class="col-xs-1">Sco 2</th>
+                        <th class="col-xs-4 col-sm-3">Equipe 2</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for rencontre in rencontres %}
                         <tr>
-                            <td>{{rencontre.equipeDom.division}}</td>
-                            <td>{{rencontre.numero}}</td>
-                            <td>{{rencontre.equipeDom}}</td>
-                            <td>{{rencontre.equipeExt}}</td>
-                            <td>{{rencontre.date}}</td>
-                            <td>{{rencontre.heure}}</td>
-                            <td>{{rencontre.scoreDom|default:""}}</td>
-                            <td>{{rencontre.forfaitDom|yesno:"X,,"}}</td>
-                            <td>{{rencontre.scoreExt|default:""}}</td>
-                            <td>{{rencontre.forfaitExt|yesno:"X,,"}}</td>
+                            <td class="col-sm-1 hidden-xs">{{rencontre.equipeDom.division}}</td>
+                            <td class="col-sm-1 hidden-xs">{{rencontre.numero}}</td>
+                            <td class="col-xs-1">{{rencontre.date|date:"d/m/Y"}}</td>
+                            <td class="col-xs-1">{{rencontre.heure}}</td>
+                            <td class="col-xs-4 col-sm-3 text-right">{{rencontre.equipeDom}}</td>
+                            <td class="col-xs-1 text-right">{% if rencontre.forfaitDom %}F{% else %}{{rencontre.scoreDom|default:""}}{% endif %}</td>
+                            <td class="col-xs-1">{% if rencontre.forfaitExt %}F{% else %}{{rencontre.scoreExt|default:""}}{% endif %}</td>
+                            <td class="col-xs-4 col-sm-3">{{rencontre.equipeExt}}</td>
                         </tr>
                     {% empty %}
                         <tr>

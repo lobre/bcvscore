@@ -34,9 +34,7 @@ class Command(BaseCommand):
                 # Créer ou mettre à jour les équipes
                 equipeDom, created = Equipe.objects.get_or_create(
                     nom=raw['Equipe 1'],
-                    defaults={
-                        'division': division
-                    }
+                    division=division
                 )
                 if created:
                     self.stdout.write(
@@ -45,9 +43,7 @@ class Command(BaseCommand):
 
                 equipeExt, created = Equipe.objects.get_or_create(
                     nom=raw['Equipe 2'],
-                    defaults={
-                        'division': division
-                    }
+                    division=division
                 )
                 if created:
                     self.stdout.write(
