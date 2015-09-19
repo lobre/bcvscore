@@ -10,8 +10,10 @@ class Command(BaseCommand):
     help = 'Commande pour importer les données'
 
     def handle(self, *args, **options):
-        self._downloadDataFile()
-        # self._importInDjango()
+        if(self._downloadDataFile()):
+            self._importInDjango()
+        else:
+            print('Impossible de télécharger le CSV')
 
     def _importInDjango(self):
         """ Import data to django from csv """
@@ -61,11 +63,11 @@ class Command(BaseCommand):
                 heure = datetime.datetime.strptime(raw['Heure'], '%H:%M')
                 rencontre, created = Rencontre.objects.get_or_create(
                     numero=int(raw['N° de match']),
-                    date=date,
-                    heure=heure,
                     equipeDom=equipeDom,
                     equipeExt=equipeExt,
                     defaults={
+                        'date': date,
+                        'heure': heure,
                         'scoreDom': scoreDom,
                         'scoreExt': scoreExt,
                         'forfaitDom': forfaitDom,
@@ -91,12 +93,28 @@ class Command(BaseCommand):
             url = 'http://extranet.ffbb.com/fbi/identification.do'
             s.post(url, data=data)
 
+            # Create filters
+            params = (
+                ('action', 'executeCsv'),
+                ('rechercherRencontreSaisieResultatBean.idDivision', ''),
+                ('rechercherRencontreSaisieResultatBean.rechercherEquipe2', 'O'),
+                ('rechercherRencontreSaisieResultatBean.dateDebutRencontre', ''),
+                ('rechercherRencontreSaisieResultatBean.dateFinRencontre', ''),
+                ('rechercherRencontreSaisieResultatBean.idPoule', ''),
+                ('rechercherRencontreSaisieResultatBean.numeroEquipe', ''),
+            )
+
             # Get Csv file
-            url = 'http://extranet.ffbb.com/fbi/rechercherCompetitionRencontre.do?action=executeCsv'
-            response = s.get(url)
+            url = 'http://extranet.ffbb.com/fbi/rechercherCompetitionRencontre.do'
+            response = s.get(url, params=params)
+
+            if(response.headers['content-type'] != 'application/ms-excel;charset=UTF-8'):
+                return False
 
             # Create the file
             if response.status_code == 200:
                 with open(settings.DATA_PATH, 'wb') as f:
                     for chunk in response:
                         f.write(chunk)
+
+        return True
