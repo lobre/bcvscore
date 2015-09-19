@@ -1,0 +1,72 @@
+{% extends "score/base.html" %}
+
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'score/style.css' %}">
+{% endblock %}
+
+{% block nav %}
+    <ul class="nav navbar-nav">
+        <li class="{% if home %}active{% endif %}"><a href="{% url 'score.views.home' %}">Accueil</a></li>
+        <li class="{% if not home %}active{% endif %}"><a href="{% url 'score.views.upcoming' %}">A venir</a></li>
+        <li><a href="{% url 'admin:index' %}">Admin</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h1>{{title}}</h1>
+    </div>
+
+    <div class="row">
+        <form class="form-inline">
+            <div class="form-group">
+                <label for="search">Equipe</label>
+                <input name="q" value="{{q}}" type="text" class="form-control" id="search" placeholder="Viriat">
+            </div>
+            <button type="submit" class="btn btn-primary">Rechercher</button>
+            <a href="{{request.path}}" class="btn btn-default">Annuler</a>
+        </form>
+    </div>
+    
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Div</th>
+                        <th>Num</th> 
+                        <th>Equipe 1</th>
+                        <th>Equipe 2</th>
+                        <th style="width: 140px;">Date</th>
+                        <th>Heure</th>
+                        <th style="width: 50px;">Sco 1</th>
+                        <th style="width: 50px;">For 1</th>
+                        <th style="width: 50px;">Sco 2</th>
+                        <th style="width: 50px;">For 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rencontre in rencontres %}
+                        <tr>
+                            <td>{{rencontre.equipeDom.division}}</td>
+                            <td>{{rencontre.numero}}</td>
+                            <td>{{rencontre.equipeDom}}</td>
+                            <td>{{rencontre.equipeExt}}</td>
+                            <td>{{rencontre.date}}</td>
+                            <td>{{rencontre.heure}}</td>
+                            <td>{{rencontre.scoreDom|default:""}}</td>
+                            <td>{{rencontre.forfaitDom|yesno:"X,,"}}</td>
+                            <td>{{rencontre.scoreExt|default:""}}</td>
+                            <td>{{rencontre.forfaitExt|yesno:"X,,"}}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="10">Aucune rencontre trouvée</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
