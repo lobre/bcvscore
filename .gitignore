@@ -4,3 +4,4 @@ staticfiles
 *.sublime-workspace
 *.sublime-project
 credentials
+data/*
