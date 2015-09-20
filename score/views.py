@@ -8,11 +8,10 @@ def home(request):
     home = True
     title = "Résultats"
 
-    today = datetime.date.today()
-    next_sunday = today + datetime.timedelta(6-today.weekday())
-
     rencontres = Rencontre.objects.filter(
-        date__lte=next_sunday
+        date__lte=datetime.date.today()
+    ).filter(
+        heure__lte=datetime.datetime.now().time()
     ).order_by(
         '-date',
         '-heure'
@@ -36,6 +35,8 @@ def upcoming(request):
 
     rencontres = Rencontre.objects.filter(
         date__gte=datetime.date.today()
+    ).filter(
+        heure__gte=datetime.datetime.now().time()
     ).order_by(
         'date',
         'heure'

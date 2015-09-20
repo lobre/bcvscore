@@ -93,7 +93,7 @@ DATABASES['default'] = dj_database_url.config(
 
 LANGUAGE_CODE = 'fr-fr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
