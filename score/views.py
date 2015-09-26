@@ -1,7 +1,11 @@
 from django.shortcuts import render
-from score.models import Rencontre
+from score.models import Rencontre, Division, Equipe, Profil
+from django.contrib.auth.models import User
 from django.db.models import Q
 import datetime
+
+from rest_framework import viewsets
+from score.serializers import DivisionSerializer, EquipeSerializer, RencontreSerializer, UserSerializer, ProfilSerializer
 
 
 def home(request):
@@ -10,8 +14,6 @@ def home(request):
 
     rencontres = Rencontre.objects.filter(
         date__lte=datetime.date.today()
-    ).filter(
-        heure__lte=datetime.datetime.now().time()
     ).order_by(
         '-date',
         '-heure'
@@ -34,13 +36,13 @@ def upcoming(request):
     title = "Matchs à venir"
 
     rencontres = Rencontre.objects.filter(
-        date__gte=datetime.date.today()
-    ).filter(
-        heure__gte=datetime.datetime.now().time()
+        date__gt=datetime.date.today()
     ).order_by(
         'date',
         'heure'
     )
+
+    print(rencontres)
 
     if 'q' in request.GET:
         q = request.GET['q']
@@ -53,3 +55,27 @@ def upcoming(request):
         locals()
     )
 
+
+class DivisionViewSet(viewsets.ModelViewSet):
+    queryset = Division.objects.all()
+    serializer_class = DivisionSerializer
+
+
+class EquipeViewSet(viewsets.ModelViewSet):
+    queryset = Equipe.objects.all()
+    serializer_class = EquipeSerializer
+
+
+class RencontreViewSet(viewsets.ModelViewSet):
+    queryset = Rencontre.objects.all()
+    serializer_class = RencontreSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class ProfilViewSet(viewsets.ModelViewSet):
+    queryset = Profil.objects.all()
+    serializer_class = ProfilSerializer
