@@ -61,7 +61,7 @@ class ProfilAdmin(admin.ModelAdmin):
     search_fields = ('user',)
 
     def apercu_equipes(self, profil):
-        return ', '.join(e.nom for e in profil.equipes.all())
+        return ', '.join(str(e) for e in profil.equipes.all())
 
     # En-tête de notre colonne
     apercu_equipes.short_description = 'Equipes'

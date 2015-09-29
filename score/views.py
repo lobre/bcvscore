@@ -5,6 +5,7 @@ from django.db.models import Q
 import datetime
 
 from rest_framework import viewsets
+from score.permissions import CoachATeam
 from score.serializers import DivisionSerializer, EquipeSerializer, RencontreSerializer, UserSerializer, ProfilSerializer
 
 
@@ -69,6 +70,7 @@ class EquipeViewSet(viewsets.ModelViewSet):
 class RencontreViewSet(viewsets.ModelViewSet):
     queryset = Rencontre.objects.all()
     serializer_class = RencontreSerializer
+    permission_classes = (CoachATeam,)
 
 
 class UserViewSet(viewsets.ModelViewSet):

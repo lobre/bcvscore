@@ -30,6 +30,14 @@ class RencontreSerializer(serializers.HyperlinkedModelSerializer):
             'forfaitDom',
             'forfaitExt'
         )
+        read_only_fields = (
+            'id',
+            'numero',
+            'date',
+            'heure',
+            'equipeDom',
+            'equipeExt'
+        )
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

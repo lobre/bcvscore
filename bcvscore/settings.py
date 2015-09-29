@@ -120,3 +120,10 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 
 # For django.contrib.sites
 SITE_ID = 1
+
+# For Django Rest Framework
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    )
+}
