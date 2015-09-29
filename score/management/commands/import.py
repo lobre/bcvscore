@@ -58,7 +58,7 @@ class Command(BaseCommand):
                 forfaitExt = True if raw['Forfait 2'] == 'true' else False
                 date = datetime.datetime.strptime(raw['Date de rencontre'], '%d/%m/%Y')
                 heure = datetime.datetime.strptime(raw['Heure'], '%H:%M')
-                rencontre, created = Rencontre.objects.get_or_create(
+                rencontre, created = Rencontre.objects.update_or_create(
                     numero=int(raw['N° de match']),
                     equipeDom=equipeDom,
                     equipeExt=equipeExt,

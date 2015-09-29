@@ -38,27 +38,25 @@
             <table class="table table-hover table-condensed">
                 <thead>
                     <tr>
-                        <th class="col-sm-1 hidden-xs">Div</th>
-                        <th class="col-sm-1 hidden-xs">Num</th>
+                        <th class="col-xs-2">Div</th>
                         <th class="col-xs-1">Date</th>
                         <th class="col-xs-1">Heure</th>
-                        <th class="col-xs-4 col-sm-3 text-right">Equipe 1</th>
+                        <th class="col-xs-3 text-right">Equipe 1</th>
                         <th class="col-xs-1 text-right">Sco 1</th>
                         <th class="col-xs-1">Sco 2</th>
-                        <th class="col-xs-4 col-sm-3">Equipe 2</th>
+                        <th class="col-xs-3">Equipe 2</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for rencontre in rencontres %}
                         <tr>
-                            <td class="col-sm-1 hidden-xs">{{rencontre.equipeDom.division}}</td>
-                            <td class="col-sm-1 hidden-xs">{{rencontre.numero}}</td>
+                            <td class="col-xs-2">{{rencontre.equipeDom.division}}</td>
                             <td class="col-xs-1">{{rencontre.date|date:"d/m/Y"}}</td>
                             <td class="col-xs-1">{{rencontre.heure}}</td>
-                            <td class="col-xs-4 col-sm-3 text-right">{{rencontre.equipeDom}}</td>
+                            <td class="col-xs-3 text-right">{{rencontre.equipeDom.nom}}</td>
                             <td class="col-xs-1 text-right">{% if rencontre.forfaitDom %}F{% else %}{{rencontre.scoreDom|default:""}}{% endif %}</td>
                             <td class="col-xs-1">{% if rencontre.forfaitExt %}F{% else %}{{rencontre.scoreExt|default:""}}{% endif %}</td>
-                            <td class="col-xs-4 col-sm-3">{{rencontre.equipeExt}}</td>
+                            <td class="col-xs-3">{{rencontre.equipeExt.nom}}</td>
                         </tr>
                     {% empty %}
                         <tr>

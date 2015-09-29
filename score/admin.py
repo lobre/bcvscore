@@ -66,6 +66,9 @@ class ProfilAdmin(admin.ModelAdmin):
     # En-tête de notre colonne
     apercu_equipes.short_description = 'Equipes'
 
+    # Edition du form
+    filter_horizontal = ('equipes',)
+
 
 class EquipeInline(admin.TabularInline):
     model = Equipe

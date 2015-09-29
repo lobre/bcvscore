@@ -18,7 +18,7 @@ class Equipe(models.Model):
     )
 
     def __str__(self):
-        return self.nom
+        return '{} ({})'.format(self.nom, self.division)
 
 
 class Rencontre(models.Model):
