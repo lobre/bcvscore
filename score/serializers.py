@@ -3,19 +3,19 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 
-class DivisionSerializer(serializers.HyperlinkedModelSerializer):
+class DivisionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Division
         fields = ('id', 'nom')
 
 
-class EquipeSerializer(serializers.HyperlinkedModelSerializer):
+class EquipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Equipe
         fields = ('id', 'nom', 'division')
 
 
-class RencontreSerializer(serializers.HyperlinkedModelSerializer):
+class RencontreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Rencontre
         fields = (
@@ -40,13 +40,13 @@ class RencontreSerializer(serializers.HyperlinkedModelSerializer):
         )
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'url', 'username', 'email', 'groups')
 
 
-class ProfilSerializer(serializers.HyperlinkedModelSerializer):
+class ProfilSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profil
         fields = ('id', 'user', 'equipes')
