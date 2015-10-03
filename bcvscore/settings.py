@@ -45,12 +45,14 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'chroniker',
     'rest_framework',
+    'corsheaders',
     'solo',
     'score'
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -127,3 +129,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     )
 }
+
+# Allow cross site for api
+CORS_ORIGIN_ALLOW_ALL = True
